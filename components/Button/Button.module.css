@@ -1,0 +1,13 @@
+.btn {
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  background-color: transparent;
+  padding: 1em 2em;
+  cursor: pointer;
+}
+
+.primary {
+  background-color: var(--primary);
+  color: var(--white);
+}

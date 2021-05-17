@@ -1,0 +1,126 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  box-shadow: 0 1px 5px 0 rgb(0, 0, 0, 0.15);
+  margin-bottom: 1em;
+  cursor: pointer;
+  transition: 0.2s all ease-in-out;
+}
+
+.container:hover {
+  box-shadow: 0 1px 6px 0 rgb(0, 0, 0, 0.5);
+}
+
+.container img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  border-radius: 8px 0 0 8px;
+}
+
+.container img.expand {
+  border-radius: 8px 0 0 0;
+}
+
+.imgContainer {
+  max-width: 320px;
+  height: 180px;
+  max-height: 180px;
+  flex: 1 1 100%;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 1em;
+  flex: 1 1 50%;
+}
+
+.container h2, .container h3, .container p {
+  margin: 0 0 0.5rem 0;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  border-top: 1px solid #EEE;
+}
+
+.details p {
+  margin: 0 0 0.5em 0;
+}
+
+.rates {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 20%;
+  padding: 1em;
+}
+
+.rating {
+  font-weight: 700;
+  font-size: 1.5em;
+}
+
+.subtext {
+  margin: 0.2em 0;
+  color: rgb(0, 0, 0, 0.7);
+}
+
+.link {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.competitor-dropdown {
+  color:rgb(0, 0, 0, 0.7);
+}
+
+.competitor-dropdown:hover {
+  color: var(--primary)
+}
+
+.competitor-list {
+  margin: 0;
+  padding: 0.5em 0;
+  list-style: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 1.5em;
+  background-color: white;
+  border: 1px solid #E0E0E0;
+  border-radius: 8px;
+  z-index: 20;
+}
+
+.competitor-list li {
+  padding: 0.5em 1em;
+}
+
+.strikeThrough {
+  text-decoration: line-through;
+}
+
+.highlight {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.taxFee {
+  padding: 0.5em;
+  min-width: 240px;
+  position: absolute;
+  right: 0;
+  top: 1.5em;
+  background-color: white;
+  border: 1px solid #EEE;
+  border-radius: 8px;
+}
+
+.disc {
+  font-weight: 700;
+}
