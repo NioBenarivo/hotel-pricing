@@ -6,7 +6,7 @@ import styles from './HotelCard.module.css'
 
 export default function HotelCard(props) {
   const [isOpen, setIsOpen] = useState(false);
-  const [openList, setOpenList] = useState(false);
+  const [openCompetitorList, setOpenCompetitorList] = useState(false);
   const [taxFeePopup, setTaxFeePopup] = useState(false);
   const { data } = props;
   const { 
@@ -53,7 +53,7 @@ export default function HotelCard(props) {
 
   const handleOpenList = e => {
     e.stopPropagation();
-    setOpenList(!openList)
+    setOpenCompetitorList(!openCompetitorList)
   }
 
   const handleHover = () => {
@@ -104,7 +104,7 @@ export default function HotelCard(props) {
             <IoCaretDownOutline size={12} style={{marginTop: '0.2em'}} />
           </span>
           {
-            openList ? 
+            openCompetitorList ? 
             <ul className={styles['competitor-list']}>
               {
                 newCompKeys

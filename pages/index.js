@@ -7,6 +7,7 @@ import HotelCard from '@components/HotelCard'
 import styles from '../styles/Home.module.css'
 import { useHotelList } from '../redux/action'
 
+// This constants can be moved to env variables file, especially API secret key
 const currencies = ["USD", "SGD", "CNY", "KRW"]
 const domain = 'https://5df9cc6ce9f79e0014b6b3dc.mockapi.io/hotels'
 
@@ -33,6 +34,7 @@ export default function Home() {
     setSearchInput(e.target.value);
   }
 
+  // Fetch Data when searchInput is not empty
   const getFetchData = async url => {
     if (searchInput && searchInput.length > 0 && selectedCurrency) {
       try {
@@ -60,6 +62,7 @@ export default function Home() {
   }
 
   useEffect(() => {
+    // Error message toast to disappear after 3s
     const timeout = setTimeout(() => {
       if (errorMsg !== null) setErrorMsg(null)
     }, 3000)
@@ -70,21 +73,18 @@ export default function Home() {
   }, [errorMsg])
 
   useEffect(async () => {
-    const newPrices = await getFetchData(`${domain}/${searchInput}/1/${selectedCurrency}`)
-    if (newPrices === undefined) return;
-    if (hotelList && newPrices !== undefined && hotelList.length > 0 && newPrices.length > 0) {
-      let merged = [];
-
-      for (let i = 0; i < hotelList.length; i++) {
-        merged.push({
-          ...hotelList[i], 
-          ...(newPrices.find((price) => price.id === hotelList[i].id))}
-        );
+    // useEffect to check every currency changes to fetch new price Data
+    // merge new data with the existing hotel data
+    if (hotelList.length > 0) {
+      const newPrices = await getFetchData(`${domain}/${searchInput}/1/${selectedCurrency}`)
+      if (newPrices === undefined) return;
+      if (hotelList && newPrices !== undefined && hotelList.length > 0 && newPrices.length > 0) {
+        const mappedHotels = hotelList.map(hotel => ({...hotel, ...newPrices.find(price => price.id === hotel.id) }))
+        const sortedMappedHotels = mappedHotels.sort((a, b) => a.price && b.price ? b.rating - a.rating : b.price - a.price)
+        setCollatedData(sortedMappedHotels)
       }
-
-      const mergedList = merged.sort((a, b) => a.price - b.price)
-      setCollatedData(mergedList)
     }
+    
   }, [selectedCurrency])
 
   const btnProps = {
@@ -109,36 +109,43 @@ export default function Home() {
   const handleSubmit = async e => {
     e.preventDefault();
   
+    // Fetch 2 datas
     const hotels = await getFetchData(`${domain}/${searchInput}`)
     const prices = await getFetchData(`${domain}/${searchInput}/1/${selectedCurrency}`)
 
+    // Check if responses are ready
     if (hotels && Array.isArray(prices) && hotels.length > 0 && prices.length > 0) {
-      let merged = [];
+      // Sort list with rating score
+      const mappedHotels = hotels.map(hotel => ({...hotel, ...prices.find(price => price.id === hotel.id) }))
+      const sortedMappedHotels = mappedHotels.sort((a, b) => a.price && b.price ? b.rating - a.rating : b.price - a.price)
 
-      for (let i = 0; i < hotels.length; i++) {
-        merged.push({
-          ...hotels[i], 
-          ...(prices.find((price) => price.id === hotels[i].id))}
-        );
-      }
-
-      const mergedList = merged.sort((a, b) => a.price - b.price)
       setHotelList(hotels)
       setPriceList(prices)
-      setCollatedData(mergedList)
+      setCollatedData(sortedMappedHotels)
     }
   }
   
   const renderHotelCards = () => {
+    // Set loading state if data is not ready
     if (loading) {
       return <div>Loading...</div>
     }
 
+    // Check if data is ready and render Element
     return collatedData.length > 0 && collatedData.map((hotel, index) => {
       const cardProps = {
         ...hotel,
         selectedCurrency
       }
+
+      // Check if hotel has complete data
+      // If not, then nothing will be rendered
+      if (
+        !hotel.name && 
+        !hotel.description && 
+        !hotel.address &&
+        !hotel.rating &&
+        !hotel.stars) return undefined;
 
       return (
         <HotelCard key={index} data={cardProps} />
