@@ -1,0 +1,37 @@
+.container {
+  width: 140px;
+  border: 1px solid #EEE;
+  outline: none;
+  border-radius: 4px;
+  position: relative;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 1em;
+}
+
+.body {
+  background-color: var(--white);
+  border: 1px solid #EEE;
+  border-radius: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.item {
+  padding: 0.5em 1em;
+  cursor: pointer;
+}
+
+.item:hover {
+  background-color: #EEE;
+}
+
+.active {
+  background-color: #EEE;
+}
